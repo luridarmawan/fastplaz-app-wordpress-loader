@@ -98,6 +98,11 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem); }
 h2 { font-size: 1.5rem; }
 h3 { font-size: 1.2rem; }
+.small { font-size: 0.6rem;}
+.smaller { font-size: 0.5rem;}
+.center { text-align: center;}
+.red { color: red;}
+.yellow { color: yellow;}
 
 table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
 th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; }
