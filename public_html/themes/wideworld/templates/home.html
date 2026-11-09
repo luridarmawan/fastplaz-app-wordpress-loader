@@ -16,13 +16,13 @@
     <!-- banner: dari config.json "hero_banner", kosong = tidak tampil; rasio lain: ratio=21:9 -->
     [text mod=wpnews func=herobanner]
     <div class="ww-main-hero">
-      [text mod=wpnews func=newshero belowbanner=1 excerpt=120]
+      [text mod=wpnews func=newshero belowbanner=1 excerpt=250]
     </div>
 
     <!-- newssection: judul = nama kategori dari WordPress; kategori yang kosong
          atau tidak ada di database ini tidak tampil -->
     [text mod=wpnews func=newssection category=cover-story number=4 excludelatest=1 thumb=1 summary=1 class=ww-list--feature]
-    [text mod=wpnews func=newssection category=kegiatan number=10 class=ww-list--dated]
+    [text mod=wpnews func=newssection category=featured-articles number=10 class=ww-list--dated]
     [text mod=wpnews func=newssection category=tulisan number=6 class=ww-list--dated]
     [text mod=wpnews func=newssection category=tips,tutorial number=6 class=ww-list--dated]
   </div>

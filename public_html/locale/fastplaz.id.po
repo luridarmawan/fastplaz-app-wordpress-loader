@@ -74,7 +74,7 @@ msgid "Pages"
 msgstr "Halaman"
 
 msgid "Powered by"
-msgstr "Didukung"
+msgstr "Powered by"
 
 msgid "Categories and random reads"
 msgstr "Kategori dan bacaan acak"
