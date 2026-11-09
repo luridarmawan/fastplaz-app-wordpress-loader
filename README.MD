@@ -90,8 +90,92 @@ and do not let the proxy serve `config/` and `ztemp/`. See
 `docs/STANDALONE-deployment.md` in the FastPlaz repository.
 
 
+THEME TAGS for DESIGNER
+----------
+
+A theme is plain HTML in `public_html/themes/<name>/templates/`, the folder
+named in `systems/theme`. The app replaces tags in square brackets with
+content from WordPress, so a designer can build a theme without touching the
+Pascal code. `wideworld` is the most complete example.
+
+### Theme files
+
+| File                        | Used for                                         |
+|-----------------------------|--------------------------------------------------|
+| `master.html`               | every page except the home page                  |
+| `home.html`                 | the home page                                    |
+| `includes/*.html`           | pieces pulled in with `[include file="..."]`     |
+
+The content of a post, page, category or search goes where `[$maincontent]`
+is, and comes from `public_html/modules/`: `wpnews/detail.html` (post),
+`wpnews/category.html`, `wpnews/search.html` and `pages/detail.html`.
+
+### Site and layout
+
+| Tag                                  | Output                                        |
+|--------------------------------------|-----------------------------------------------|
+| `[$maincontent]`                     | the page content (see above)                  |
+| `[include file="includes/head.html"]`| another template file, relative to `templates/` |
+| `[$baseurl]`                         | the site URL, for links: `[$baseurl]category/berita/` |
+| `[$themefullpath]`                   | URL of the theme folder, for CSS, JS and images: `[$themefullpath]/style/style.css` |
+| `[$themepath]`                       | the same, without the site URL: `themes/wideworld` |
+| `[sitename]`, `[$slogan]`            | `sitename` and `slogan` from `config.json`    |
+| `[lang]`                             | the active language: `id` or `en`, for `<html lang="[lang]">` |
+| `[gt text=Latest News]`              | a label in the active language (from `public_html/locale`) |
+| `[date format=dd MMM YYYY]`          | today's date in your own format               |
+| `[thisurl type=full]`                | URL of the current page                       |
+| `[config key=systems/slogan]`        | any value from `config.json`                  |
+
+### WordPress content
+
+All of them are written as `[text mod=<module> func=<function> ...]`; the
+options after `func` are optional. `class=` puts your CSS class on the list
+the tag writes.
+
+| Tag | Output | Options |
+|-----|--------|---------|
+| `[text mod=wpnews func=getoption name=blogname]` | a WordPress setting: `blogname`, `blogdescription`, ... | `name` |
+| `[text mod=wpnews func=sitelogo class=site-logo]` | the logo from WordPress (Customize > Site Identity), otherwise `public_html/logo.png` | `class`, `variant=light` uses `logo-light.png` on a dark background |
+| `[text mod=wpnews func=newstitle]` | ` - <post or page title>`, for `<title>` | |
+| `[text mod=wpnews func=today]` | `Senin, 9 November 2026` | `format=year`: `2026`, for the copyright line |
+| `[text mod=wpnews func=pagesmenu type=nav]` | menu of the WordPress pages, sub-pages nested | `type=nav` (`<nav>`) or `type=items` (`<li>` only), `id`, `class`, `header`, `footer` |
+| `[text mod=wpnews func=langswitch]` | ID / EN links | `class`; languages from `languages` in `config.json` |
+| `[text mod=wpnews func=newslist number=6]` | list of the newest posts | `category` (slug, or several: `tips,tutorial`), `number` (max 30), `offset`, `thumb=1` (image), `summary=1` (excerpt), `excerpt` (characters, max 300), `excludelatest=1`, `hideempty=1`, `class` |
+| `[text mod=wpnews func=newssection category=kegiatan]` | a section: heading with the category name and its newslist; nothing when the category has no posts | same as `newslist` |
+| `[text mod=wpnews func=newshero]` | the newest post, large, with its image | `category`, `excerpt` (default 420), `belowbanner=1` when `herobanner` is above it |
+| `[text mod=wpnews func=lastnews]` | simple list of the newest posts | `category`, `title`, `options=summary` or `options=full`, `id`, `class` |
+| `[text mod=wpnews func=randomnews number=7]` | random posts | `number` (max 100), `title`, `class` |
+| `[text mod=wpnews func=herobanner]` | image carousel from `hero_banner` in `config.json` | `ratio=16:9` |
+| `[text mod=wpnews func=rightbanner]` | stacked banners from `right_top_banner` in `config.json` | |
+| `[text mod=category func=categorylist]` | categories that have posts | `title`, `class` |
+| `[text mod=tag func=tagcloud number=24]` | tag cloud | `number` (max 200), `title`, `style=none` (no random font size) |
+
+### Inside the module templates
+
+`modules/wpnews/detail.html` gets the post as `$news`, and
+`modules/pages/detail.html` gets the page as `$page`:
+
+| Tag                                         | Output                          |
+|---------------------------------------------|---------------------------------|
+| `[$news.post_title]`                        | title                           |
+| `[$news.post_content filter=wpautop]`       | the story, with paragraphs      |
+| `[$news.post_date dateformat=dd MMM YYYY]`  | date in your own format         |
+| `[$news.display_name]`                      | author                          |
+| `[$news.post_name]`                         | slug, for building the URL      |
+| `[$category_title]`, `[$category_url]`      | category name and URL (in `category.html`) |
+
+Lists are repeated with `foreach`; in `detail.html`, `$terms` is the post's
+tags:
+
+    [foreach from=$terms item=$aItem type=table]
+      <a href="[$baseurl]tag/[$aItem.slug]/" rel="tag">[$aItem.name]</a>
+    [/foreach from=$terms]
+
+
 SITES USING THIS APP
 --------------------
 
 - Portal Pencak Silat Indonesia, https://silatindonesia.com
 - Perkumpulan Panahan Berkuda Indonesia (KPBI), https://ihasa.id
+
+![Home page of ihasa.id: navy header, category menu, a featured story, Cover Story and Kegiatan sections, and a sidebar with categories and the latest news](docs/img/ihasa.id.png)
