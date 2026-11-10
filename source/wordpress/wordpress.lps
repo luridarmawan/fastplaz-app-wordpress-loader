@@ -16,7 +16,7 @@
       <Unit>
         <Filename Value="routes.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <CursorPos X="56" Y="16"/>
         <UsageCount Value="137"/>
         <Loaded Value="True"/>
@@ -116,7 +116,6 @@
       <Unit>
         <Filename Value="src\app\wordpress\wordpress_sitemap_controller.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="25"/>
         <CursorPos Y="38"/>
@@ -130,8 +129,21 @@
         <CursorPos Y="146"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="..\..\..\fastplaz\tools\src\about_fastplaz.pas"/>
+        <ComponentName Value="fAboutFastplaz"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="51"/>
+        <CursorPos X="7" Y="56"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="13">
+    <JumpHistory HistoryIndex="15">
       <Position>
         <Filename Value="src\app\wordpress\wordpress_news_controller.pas"/>
         <Caret Line="602" Column="23" TopLine="600"/>
@@ -187,6 +199,14 @@
       <Position>
         <Filename Value="src\app\wordpress\wordpress_sitemap_controller.pas"/>
         <Caret Line="30" TopLine="25"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\..\fastplaz\tools\src\about_fastplaz.pas"/>
+        <Caret Line="5" Column="10"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\..\fastplaz\tools\src\about_fastplaz.pas"/>
+        <Caret Line="23" Column="13"/>
       </Position>
     </JumpHistory>
     <RunParams>
