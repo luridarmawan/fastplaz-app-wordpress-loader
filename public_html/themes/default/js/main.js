@@ -44,6 +44,8 @@
     }
 
     initLightbox();
+    var shares = document.querySelectorAll('.share');
+    for (var sh = 0; sh < shares.length; sh++) { initShare(shares[sh]); }
 
     if (!toggle || !nav) { return; }
 
@@ -68,6 +70,62 @@
     var onChange = function (e) { if (e.matches) { setOpen(false); } };
     if (mq.addEventListener) { mq.addEventListener('change', onChange); } else if (mq.addListener) { mq.addListener(onChange); }
   });
+
+  /* ------------------------------------------------------------------------
+     Tombol bagikan (markup di modules/wpnews/detail.html).
+     - link WhatsApp/Facebook/X/Telegram sudah jalan tanpa JS; di sini judul
+       berita ditambahkan ke teks share (template tidak punya filter urlencode)
+     - "salin tautan" dan share bawaan HP baru ditampilkan bila browser
+       mendukungnya: tidak ada tombol yang tidak berfungsi
+     ------------------------------------------------------------------------ */
+  function initShare(root) {
+    var en = (document.documentElement.lang || '').toLowerCase().slice(0, 2) === 'en';
+    var MSG = en
+      ? { copied: 'Link copied.', copyFail: 'Could not copy the link. Copy it from the address bar.' }
+      : { copied: 'Tautan berita sudah disalin.', copyFail: 'Tautan tidak bisa disalin otomatis. Salin dari kolom alamat browser.' };
+    var url = root.getAttribute('data-share-url') || location.href;
+    var h1 = document.querySelector('.entry-title');
+    var title = ((h1 && h1.textContent) || document.title).replace(/\s+/g, ' ').trim();
+    var u = encodeURIComponent(url), t = encodeURIComponent(title);
+    var links = {
+      whatsapp: 'https://wa.me/?text=' + t + '%0A' + u,
+      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + u,
+      x: 'https://x.com/intent/post?text=' + t + '&url=' + u,
+      telegram: 'https://t.me/share/url?url=' + u + '&text=' + t
+    };
+    Array.prototype.forEach.call(root.querySelectorAll('a[data-share]'), function (a) {
+      var href = links[a.getAttribute('data-share')];
+      if (href) { a.href = href; }
+    });
+
+    var status = root.querySelector('.share-status'), timer = null;
+    function say(msg) {
+      status.textContent = msg;
+      clearTimeout(timer);
+      timer = setTimeout(function () { status.textContent = ''; }, 4000);
+    }
+
+    var copyBtn = root.querySelector('[data-share="copy"]');
+    if (copyBtn && navigator.clipboard && window.isSecureContext) {
+      copyBtn.parentNode.hidden = false;
+      copyBtn.addEventListener('click', function () {
+        navigator.clipboard.writeText(url).then(function () {
+          copyBtn.classList.add('is-done');
+          setTimeout(function () { copyBtn.classList.remove('is-done'); }, 1500);
+          say(MSG.copied);
+        }, function () { say(MSG.copyFail); });
+      });
+    }
+
+    var nativeBtn = root.querySelector('[data-share="native"]');
+    if (nativeBtn && navigator.share) {
+      nativeBtn.parentNode.hidden = false;
+      nativeBtn.addEventListener('click', function () {
+        // dibatalkan pengguna -> AbortError, tidak perlu pesan
+        navigator.share({ title: title, url: url }).catch(function () { });
+      });
+    }
+  }
 
   /* ------------------------------------------------------------------------
      Lightbox: gambar di isi artikel dibuka sebagai popup saat diketuk.

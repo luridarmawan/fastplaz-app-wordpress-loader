@@ -474,6 +474,30 @@ figure img { border-radius: 6px; }
 }
 .tag-links a:hover { background: var(--primary); color: #fff; text-decoration: none; }
 
+/* tombol bagikan (di bawah isi berita): ikon warna teks di kotak putih
+   bergaris, hover merah primary seperti label tag; tanpa warna merek supaya
+   palet tetap satu warna utama. Kotak 44px: pas untuk jari. */
+.share {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+  margin: 28px 0 8px; padding-top: 18px; border-top: 1px solid var(--border);
+}
+.share-title { margin: 0; font-size: 1rem; }
+.share-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.share-list li[hidden] { display: none; }
+.share-btn {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; padding: 0;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); color: var(--text);
+  font: inherit; cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+.share-btn svg { width: 20px; height: 20px; fill: currentColor; }
+.share-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+.share-btn:active { background: var(--primary-hover); border-color: var(--primary-hover); color: #fff; }
+.share-btn.is-done { border-color: var(--primary); color: var(--primary); }
+.share-status { flex-basis: 100%; margin: 0; font-size: .9rem; color: var(--text-muted); }
+
 /* ==========================================================================
    Lightbox (popup gambar di isi artikel)
    ========================================================================== */

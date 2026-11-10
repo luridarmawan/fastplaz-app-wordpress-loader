@@ -577,6 +577,31 @@ article.post + article.post { margin-top: 32px; padding-top: 32px; border-top: 1
 }
 .tag-links a:hover { background: var(--sun); }
 
+/* ---------- tombol bagikan (di bawah isi berita) ----------
+   Ikon navy di kotak putih bergaris, bukan warna merek masing-masing:
+   lima warna merek akan melanggar palet navy/biru/kuning. Hover kuning,
+   sama seperti kontrol lain yang bisa diklik. Kotak 44px: pas untuk jari. */
+.share {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  margin: 32px 0 8px; padding-top: 20px; border-top: 1px solid var(--line);
+}
+.share-title { margin: 0; font-size: 1.05rem; }
+.share-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.share-list li[hidden] { display: none; }
+.share-btn {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; padding: 0;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--navy);
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+.share-btn svg { width: 20px; height: 20px; fill: currentColor; }
+.share-btn:hover { background: var(--sun); border-color: var(--sun); color: var(--ink); }
+.share-btn:active { background: var(--blue); border-color: var(--blue); color: var(--on-navy); }
+.share-btn.is-done { background: var(--sun-soft); border-color: var(--sun); }
+.share-status { flex-basis: 100%; margin: 0; min-height: 1.4em; font-size: .9rem; color: var(--ink-soft); }
+.share-status:empty { min-height: 0; }
+
 /* WordPress */
 .pull-left { float: left; }
 .pull-right { float: right; }
